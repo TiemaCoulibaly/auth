@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import { HashRouter, Route, Switch } from "react-router-dom";
+import Home from "./pages/Home";
+import Posts from "./pages/posts/Posts";
+import Post from "./pages/posts/Post";
+import Login from "./pages/users/Login";
+import Register from "./pages/users/Register";
+import Account from "./pages/users/Account";
+import Profil from "./pages/users/Profil";
+import Auth from "./contexts/Auth";
+import { hasAuthenticated } from "./services/AuthApi";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated);
+	return (
+		<Auth.Provider value={{ isAuthenticated }}>
+			<HashRouter>
+				<div>
+					<Navbar />
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route exact path="/posts" component={Posts} />
+						<Route exact path="/post" component={Post} />
+						<Route exact path="/login" component={Login} />
+						<Route exact path="/register" component={Register} />
+						<AuthenticatedRoute
+							path="/account"
+							component={Account}
+						/>
+						<AuthenticatedRoute path="/profil" component={Profil} />
+					</Switch>
+				</div>
+			</HashRouter>
+		</Auth.Provider>
+	);
+};
 
 export default App;
