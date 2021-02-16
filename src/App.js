@@ -15,7 +15,7 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated);
 	return (
-		<Auth.Provider value={{ isAuthenticated }}>
+		<Auth.Provider value={{ isAuthenticated, setIsAuthenticated }}>
 			<HashRouter>
 				<div>
 					<Navbar />
